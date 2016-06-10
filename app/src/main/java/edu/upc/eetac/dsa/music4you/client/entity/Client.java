@@ -19,7 +19,7 @@ import javax.ws.rs.core.Response;
  * Created by hicham.az on 10/06/2016.
  */
 public class Client {
-    private final static String BASE_URI = "http://192.168.1.37:8080/beeter";
+    private final static String BASE_URI = "http://80.103.156.84:8080/music4you";
     private static Client instance;
     private Root root;
     private ClientConfig clientConfig = null;
@@ -47,11 +47,12 @@ public class Client {
         root = (new Gson()).fromJson(json, Root.class);
     }
     public boolean login(String userid, String password) {
-        String loginUri = getLink(root.getLinks(), "login").getUri().toString();
+        //String loginUri = getLink(root.getLinks(), "login").getUri().toString();
+        String loginUri = BASE_URI + "/login";
         WebTarget target = client.target(loginUri);
         Form form = new Form();
-        form.param("login", "b1");
-        form.param("password", "1234");
+        form.param("login", userid);
+        form.param("password", password);
         String json = target.request().post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), String.class);
         authToken = (new Gson()).fromJson(json, AuthToken.class);
         Log.d(TAG, json);

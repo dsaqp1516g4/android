@@ -207,7 +207,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
             Client client = Client.getInstance();
-            boolean result = client.login("b1", "1234");
+            boolean result = client.login(mUsername, mPassword);
 
             // TODO: register the new account here.
             return result;
