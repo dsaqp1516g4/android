@@ -3,8 +3,6 @@ package edu.upc.eetac.dsa.music4you;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -19,9 +17,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import edu.upc.eetac.dsa.music4you.client.Music4youClient;
 import edu.upc.eetac.dsa.music4you.client.entity.AuthToken;
-import edu.upc.eetac.dsa.music4you.client.entity.Client;
+import edu.upc.eetac.dsa.music4you.client.Cliente;
 
 
 /**
@@ -206,7 +203,7 @@ public class LoginActivity extends AppCompatActivity {
         }*/
         @Override
         protected Boolean doInBackground(Void... params) {
-            Client client = Client.getInstance();
+            Cliente client = Cliente.getInstance();
             boolean result = client.login(mUsername, mPassword);
 
             // TODO: register the new account here.
