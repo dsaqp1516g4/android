@@ -1,5 +1,6 @@
 package edu.upc.eetac.dsa.music4you;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -52,10 +53,14 @@ public class AdsListActivity extends AppCompatActivity {
         adapter = new AnuncioCollectionAdapter(this, anuncios);
         list.setAdapter(adapter);
 */
+        // set list OnItemClick listener
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                Intent intent = new Intent(AdsListActivity.this, AdsDetailActivity.class);
+                String uri = Cliente.getLink(anuncios.getAnuncios().get(position).getLinks(), "self").getUri().toString();
+                intent.putExtra("uri", uri);
+                startActivity(intent);
             }
         });
 

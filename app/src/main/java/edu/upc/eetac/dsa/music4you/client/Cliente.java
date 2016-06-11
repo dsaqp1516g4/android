@@ -39,6 +39,20 @@ public class Cliente {
         loadRoot();
     }
 
+    public String GetAnuncio (String uri) throws Music4youClientException {
+        WebTarget target = client.target(uri);
+        Response response = target.request().get();
+        if (response.getStatus() == Response.Status.OK.getStatusCode())
+            return response.readEntity(String.class);
+        else
+            throw new Music4youClientException(response.readEntity(String.class));
+    }
+
+
+    public String getSting(String uri) throws Music4youClientException {
+        return null;
+    }
+
     public static Cliente getInstance() {
         if (instance == null)
             instance = new Cliente();
