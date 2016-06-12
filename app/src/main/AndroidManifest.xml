@@ -24,7 +24,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".AnuncioListActivity" />
-        <activity android:name=".AnunciosDetailActivity"></activity>
+        <activity android:name=".AnunciosDetailActivity" />
+        <activity android:name=".RegisterActivity">
+                 android:parentActivityName=".LoginActivity"
+
+        </activity>
     </application>
 
 </manifest>

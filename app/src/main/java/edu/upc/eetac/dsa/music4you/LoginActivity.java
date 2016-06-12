@@ -59,6 +59,15 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+
+        Button RegisterButton = (Button) findViewById(R.id.register_button);
+        RegisterButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+            }
+        });
+
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override

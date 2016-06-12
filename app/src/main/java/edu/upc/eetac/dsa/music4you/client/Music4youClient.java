@@ -19,6 +19,7 @@ import javax.ws.rs.core.Response;
 import edu.upc.eetac.dsa.music4you.client.entity.AuthToken;
 import edu.upc.eetac.dsa.music4you.client.entity.Link;
 import edu.upc.eetac.dsa.music4you.client.entity.Root;
+import edu.upc.eetac.dsa.music4you.client.entity.user;
 
 /**
  * Created by root on 12/06/16.
@@ -31,11 +32,55 @@ public class Music4youClient {
     private Client client = null;
     private AuthToken authToken = null;
     private final static String TAG = Music4youClient.class.toString();
+    protected Response response;
+
 
     private Music4youClient() {
         clientConfig = new ClientConfig();
         client = ClientBuilder.newClient(clientConfig);
         loadRoot();
+    }
+    public user register(String userid,  String pass,String email, String name){
+        Log.d(TAG, "entra en el register" );
+        user user = new user();
+        String loginUri = BASE_URI + "/users" ;//getLink(root.getLinks(), "create-user").getUri().toString();
+        WebTarget target = client.target(loginUri);
+        Log.d(TAG, "uri: " + loginUri);
+        Form form = new Form();
+        form.param("loginid", userid);
+        form.param("password", pass);
+        form.param("email", email);
+        form.param("fullname", name);
+        Log.d(TAG, form.toString());
+        response = target.request().post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), Response.class);
+        Log.d(TAG, "response: "+ response);
+
+        String reason = response.getStatusInfo().getReasonPhrase();
+        int code = response.getStatus();
+
+        if (code == 201) {
+            String json = response.readEntity(String.class);
+            authToken = (new Gson()).fromJson(json, AuthToken.class);
+
+
+            user.setEmail(email);
+            user.setLoginid(userid);
+            user.setFullname(name);
+            user.setLoginSuccesful(true);
+            Log.d(TAG, "todo bien");
+
+            return user;
+        }
+        else if(code == 409){
+            user.setLoginSuccesful(false);
+            user.setLoginid(null);
+            return user;
+        }
+        else {
+            user.setLoginSuccesful(false);
+            Log.d(TAG, "Error: " + code);
+            return user;
+        }
     }
 
     public String GetAnuncio (String uri) throws Music4youClientException {
