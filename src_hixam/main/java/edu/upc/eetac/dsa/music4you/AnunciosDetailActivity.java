@@ -9,16 +9,16 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
-import edu.upc.eetac.dsa.music4you.client.Cliente;
+import edu.upc.eetac.dsa.music4you.client.Music4youClient;
 import edu.upc.eetac.dsa.music4you.client.Music4youClientException;
 import edu.upc.eetac.dsa.music4you.client.entity.Anuncio;
 
-public class AdsDetailActivity extends AppCompatActivity {
+public class AnunciosDetailActivity extends AppCompatActivity {
 
 
     GetAnuncioTask mGetAnuncioTask = null;
 
-    private final static String TAG = AdsDetailActivity.class.toString();
+    private final static String TAG = AnunciosDetailActivity.class.toString();
     String uri = null;
     String name = null;
     String algo = null;
@@ -46,7 +46,7 @@ public class AdsDetailActivity extends AppCompatActivity {
         protected String doInBackground(Void... params) {
             String jsonSting = null;
             try {
-                jsonSting = Cliente.getInstance().GetAnuncio(uri);
+                jsonSting = Music4youClient.getInstance().GetAnuncio(uri);
             } catch (Music4youClientException e) {
                 // TODO: Handle gracefully
                 Log.d(TAG, e.getMessage());

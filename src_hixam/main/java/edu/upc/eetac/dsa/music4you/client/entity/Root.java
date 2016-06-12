@@ -3,7 +3,11 @@ package edu.upc.eetac.dsa.music4you.client.entity;
 import java.util.List;
 
 /**
- * Created by root on 12/06/16.
+
+ import java.util.List;
+
+ /**
+ * Created by hicham.az on 09/06/2016.
  */
 public class Root {
     private List<Link> links;

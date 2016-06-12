@@ -24,16 +24,16 @@ import edu.upc.eetac.dsa.music4you.client.entity.Root;
 /**
  * Created by hicham.az on 10/06/2016.
  */
-public class Cliente {
+public class Music4youClient {
     private final static String BASE_URI = "http://80.103.156.84:8080/music4you";
-    private static Cliente instance;
+    private static Music4youClient instance;
     private Root root;
     private ClientConfig clientConfig = null;
     private Client client = null;
     private AuthToken authToken = null;
-    private final static String TAG = Cliente.class.toString();
+    private final static String TAG = Music4youClient.class.toString();
 
-    private Cliente() {
+    private Music4youClient() {
         clientConfig = new ClientConfig();
         client = ClientBuilder.newClient(clientConfig);
         loadRoot();
@@ -48,14 +48,9 @@ public class Cliente {
             throw new Music4youClientException(response.readEntity(String.class));
     }
 
-
-    public String getSting(String uri) throws Music4youClientException {
-        return null;
-    }
-
-    public static Cliente getInstance() {
+    public static Music4youClient getInstance() {
         if (instance == null)
-            instance = new Cliente();
+            instance = new Music4youClient();
         return instance;
     }
 

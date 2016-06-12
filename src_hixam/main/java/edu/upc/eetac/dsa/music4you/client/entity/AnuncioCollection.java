@@ -3,15 +3,14 @@ package edu.upc.eetac.dsa.music4you.client.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
- * Created by root on 12/06/16.
+ * Created by hicham.az on 10/06/2016.
  */
 public class AnuncioCollection {
     private List<Link> links;
     private long newestTimestamp;
     private long oldestTimestamp;
-    private List<Anuncio> stings = new ArrayList<>();
+    private List<Anuncio> anuncios = new ArrayList<>();
 
     public List<Link> getLinks() {
         return links;
@@ -37,11 +36,11 @@ public class AnuncioCollection {
         this.oldestTimestamp = oldestTimestamp;
     }
 
-    public List<Anuncio> getStings() {
-        return stings;
+    public List<Anuncio> getAnuncios() {
+        return anuncios;
     }
 
-    public void setStings(List<Anuncio> stings) {
-        this.stings = stings;
+    public void setAnuncios(List<Anuncio> anuncios) {
+        this.anuncios = anuncios;
     }
 }

@@ -4,7 +4,7 @@ import java.net.URI;
 import java.util.List;
 
 /**
- * Created by root on 12/06/16.
+ * Created by hicham.az on 09/06/2016.
  */
 public class Link {
     private URI uri;
@@ -53,4 +53,3 @@ public class Link {
         this.type = type;
     }
 }
-

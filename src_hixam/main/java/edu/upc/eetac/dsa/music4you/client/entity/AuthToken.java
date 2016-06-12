@@ -1,9 +1,10 @@
 package edu.upc.eetac.dsa.music4you.client.entity;
 
-import java.util.List;
+
+        import java.util.List;
 
 /**
- * Created by root on 12/06/16.
+ * Created by hicham.az on 09/06/2016.
  */
 public class AuthToken {
     private List<Link> links;
@@ -34,4 +35,3 @@ public class AuthToken {
         this.token = token;
     }
 }
-

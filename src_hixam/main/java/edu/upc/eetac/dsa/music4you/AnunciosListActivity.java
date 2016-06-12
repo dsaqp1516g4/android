@@ -18,16 +18,63 @@ import org.json.JSONObject;
 
 import edu.upc.eetac.dsa.music4you.client.entity.Anuncio;
 import edu.upc.eetac.dsa.music4you.client.entity.AnuncioCollection;
-import edu.upc.eetac.dsa.music4you.client.Cliente;
+import edu.upc.eetac.dsa.music4you.client.Music4youClient;
 import edu.upc.eetac.dsa.music4you.client.Music4youClientException;
 
-public class AdsListActivity extends AppCompatActivity {
-    private final static String TAG = AdsListActivity.class.toString();
+public class AnunciosListActivity extends AppCompatActivity {
+    private final static String TAG = AnunciosListActivity.class.toString();
     private GetAnunciosTask mGetStingsTask = null;
     private AnuncioCollection anuncios = new AnuncioCollection();
     private AnuncioCollectionAdapter adapter = null;
     private TextView res;
 
+    class GetAnunciosTask extends AsyncTask<Void, Void, String> {
+        private String uri;
+        public GetAnunciosTask(String uri) {
+            this.uri = uri;
+
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String jsonAnuncioCollection = null;
+            try{
+                jsonAnuncioCollection = Music4youClient.getInstance().getAnuncios(uri);
+                Log.d("json es", jsonAnuncioCollection);
+
+            }catch(Music4youClientException e){
+                // TODO: Handle gracefully
+                Log.d(TAG, e.getMessage());
+            }
+            return jsonAnuncioCollection;
+        }
+
+
+        @Override
+        protected void onPostExecute(String jsonAnuncioCollection) {
+            JSONObject jo = null;
+
+            JSONArray resta = null;
+            try {
+                jo = new JSONObject(jsonAnuncioCollection);
+                resta = jo.getJSONArray("stings");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            Log.d(TAG, jsonAnuncioCollection);
+            AnuncioCollection AnuncioCollection = (new Gson()).fromJson(jsonAnuncioCollection, AnuncioCollection.class);
+
+            for(Anuncio a : AnuncioCollection.getAnuncios()){
+                anuncios.getAnuncios().add(anuncios.getAnuncios().size(), a);
+
+            }
+            if(anuncios.getAnuncios().size() == 0){
+                Log.d(TAG,"No hay anuncios");
+            }
+            adapter.notifyDataSetChanged();
+        }
+    }
 
 
     @Override
@@ -48,17 +95,12 @@ public class AdsListActivity extends AppCompatActivity {
         list.setAdapter(adapter);
        // res =  (TextView) findViewById(R.id.textViewMainText);
 
-
-       /*
-        adapter = new AnuncioCollectionAdapter(this, anuncios);
-        list.setAdapter(adapter);
-*/
         // set list OnItemClick listener
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(AdsListActivity.this, AdsDetailActivity.class);
-                String uri = Cliente.getLink(anuncios.getAnuncios().get(position).getLinks(), "self").getUri().toString();
+                Intent intent = new Intent(AnunciosListActivity.this, AnunciosDetailActivity.class);
+                String uri = Music4youClient.getLink(anuncios.getAnuncios().get(position).getLinks(), "self").getUri().toString();
                 intent.putExtra("uri", uri);
                 startActivity(intent);
             }
@@ -81,50 +123,5 @@ public class AdsListActivity extends AppCompatActivity {
         });*/
     }
 
-    class GetAnunciosTask extends AsyncTask<Void, Void, String> {
-        private String uri;
-        public GetAnunciosTask(String uri) {
-            this.uri = uri;
-
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            String jsonStingCollection = null;
-            try{
-                jsonStingCollection = Cliente.getInstance().getAnuncios(uri);
-                Log.d("json es", jsonStingCollection);
-
-            }catch(Music4youClientException e){
-                // TODO: Handle gracefully
-                Log.d(TAG, e.getMessage());
-            }
-            return jsonStingCollection;
-        }
-
-
-        @Override
-        protected void onPostExecute(String jsonAnuncioCollection) {
-            JSONObject jo = null;
-            AnuncioCollection AnuncioCollection = (new Gson()).fromJson(jsonAnuncioCollection, AnuncioCollection.class);
-            JSONArray resta = null;
-            try {
-                jo = new JSONObject(jsonAnuncioCollection);
-                resta = jo.getJSONArray("stings");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            Log.d(TAG, jsonAnuncioCollection);
-            for(Anuncio a : AnuncioCollection.getAnuncios()){
-                anuncios.getAnuncios().add(anuncios.getAnuncios().size(), a);
-
-            }
-            if(anuncios.getAnuncios().size() == 0){
-              Log.d(TAG,"No hay anuncios");
-            }
-            adapter.notifyDataSetChanged();
-        }
-    }
 
 }

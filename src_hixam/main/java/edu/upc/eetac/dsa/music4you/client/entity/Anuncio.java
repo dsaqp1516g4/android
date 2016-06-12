@@ -3,12 +3,12 @@ package edu.upc.eetac.dsa.music4you.client.entity;
 import java.util.List;
 
 /**
- * Created by root on 12/06/16.
+ * Created by hicham.az on 10/06/2016.
  */
 public class Anuncio {
     private List<Link> links;
     private String id;
-    private double precio;
+    private Long precio;
     private String userid;
     private Integer type;
     private String creator;
@@ -17,6 +17,9 @@ public class Anuncio {
     private String image;
     private long creationTimestamp;
     private long lastModified;
+
+
+
 
     public String getImage() {
         return image;
@@ -35,11 +38,11 @@ public class Anuncio {
     }
 
 
-    public double getPrecio() {
+    public Long getPrecio() {
         return precio;
     }
 
-    public void setPrecio(double precio) {
+    public void setPrecio(Long precio) {
         this.precio = precio;
     }
 
@@ -107,4 +110,3 @@ public class Anuncio {
         this.lastModified = lastModified;
     }
 }
-
