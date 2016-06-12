@@ -88,6 +88,18 @@ public class Music4youClient {
         return true;
     }
 
+
+    public String getAnuncio(String uri) throws Music4youClientException {
+        WebTarget target = client.target(uri);
+        Response response = target.request().get();
+        if (response.getStatus() == Response.Status.OK.getStatusCode())
+            return response.readEntity(String.class);
+        else
+            throw new Music4youClientException(response.readEntity(String.class));
+    }
+
+
+
     public Root getRoot() {
         return root;
     }

@@ -12,6 +12,10 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import edu.upc.eetac.dsa.music4you.client.Music4youClient;
 import edu.upc.eetac.dsa.music4you.client.Music4youClientException;
 import edu.upc.eetac.dsa.music4you.client.entity.Anuncio;
@@ -23,7 +27,7 @@ public class AnuncioListActivity extends AppCompatActivity {
     private AnuncioCollection anuncios = new AnuncioCollection();
     private AnuncioListAdapter adapter = null;
     private TextView res;
-
+    String URL_base = "http://80.103.156.84:8080/music4you/anuncio";
     class GetAnunciosTask extends AsyncTask<Void, Void, String> {
         private String uri;
         public GetAnunciosTask(String uri) {
@@ -50,7 +54,14 @@ public class AnuncioListActivity extends AppCompatActivity {
         protected void onPostExecute(String jsonAnuncioCollection) {
             Log.d(TAG, jsonAnuncioCollection);
             AnuncioCollection AnuncioCollection = (new Gson()).fromJson(jsonAnuncioCollection, AnuncioCollection.class);
-
+          /*  JSONObject jo = null;
+            JSONArray resta = null;
+            try {
+                jo = new JSONObject(jsonAnuncioCollection);
+                resta = jo.getJSONArray("links");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }*/
             Log.d(TAG, String.valueOf(AnuncioCollection));
             for(Anuncio anuncio : AnuncioCollection.getStings()){
                 anuncios.getStings().add(anuncios.getStings().size(), anuncio);
@@ -87,8 +98,10 @@ public class AnuncioListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(AnuncioListActivity.this, AnunciosDetailActivity.class);
-                String uri = Music4youClient.getLink(anuncios.getStings().get(position).getLinks(), "self").getUri().toString();
-                intent.putExtra("uri", uri);
+                String ide = anuncios.getStings().get(position).getId().toString();       // Music4youClient.getLink(anuncios.getStings().get(position).getId(), "self").getUri().toString();
+                String urlid = URL_base + "/" + ide;
+               // String uri = Music4youClient.getLink(anuncios.getStings().get(position).getLinks(), "self").getUri().toString();
+                intent.putExtra("uri", urlid);
                 startActivity(intent);
             }
         });

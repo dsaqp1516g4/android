@@ -48,8 +48,8 @@ public class AnuncioListAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        String mainText = anuncioCollection.getStings().get(position).getId();
-        String leftText = anuncioCollection.getStings().get(position).getSubject();
+        String mainText = anuncioCollection.getStings().get(position).getSubject();
+        int leftText = anuncioCollection.getStings().get(position).getType();
         double rightText = anuncioCollection.getStings().get(position).getPrecio();
 
 
@@ -58,7 +58,7 @@ public class AnuncioListAdapter extends BaseAdapter {
         * */
 
         viewHolder.textViewMainText.setText(mainText);
-        viewHolder.textViewLeftText.setText(leftText);
+        viewHolder.textViewLeftText.setText(String.valueOf(leftText));
         viewHolder.textViewRightText.setText(String.valueOf(rightText));
         return convertView;
     }
