@@ -31,8 +31,8 @@ public class AnuncioListActivity extends AppCompatActivity {
     private AnuncioCollection anuncios = new AnuncioCollection();
     private AnuncioListAdapter adapter = null;
     private TextView res;
-    String URL_base = "http://80.103.156.84:8080/music4you/anuncio";
-    String URL_base2 = "http://80.103.156.84:8080/music4you/";
+    String URL_base = "http://eetacdsa2a.upc.es:8080/music4you/anuncio";
+    String URL_base2 = "http://eetacdsa2a.upc.es:8080/music4you/";
 
     private LogOutTask mLogOutTask = null;
 
@@ -110,6 +110,14 @@ public class AnuncioListActivity extends AppCompatActivity {
                 String urlid = URL_base + "/" + ide;
                // String uri = Music4youClient.getLink(anuncios.getStings().get(position).getLinks(), "self").getUri().toString();
                 intent.putExtra("uri", urlid);
+                startActivity(intent);
+            }
+        });
+        FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.fab2);
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AnuncioListActivity.this, WriteAnuncioActivity.class);
                 startActivity(intent);
             }
         });

@@ -16,6 +16,7 @@ import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import edu.upc.eetac.dsa.music4you.client.entity.Anuncio;
 import edu.upc.eetac.dsa.music4you.client.entity.AuthToken;
 import edu.upc.eetac.dsa.music4you.client.entity.Link;
 import edu.upc.eetac.dsa.music4you.client.entity.Root;
@@ -25,7 +26,7 @@ import edu.upc.eetac.dsa.music4you.client.entity.user;
  * Created by root on 12/06/16.
  */
 public class Music4youClient {
-    private final static String BASE_URI = "http://80.103.156.84:8080/music4you";
+    private final static String BASE_URI = "http://eetacdsa2a.upc.es:8080/music4you";
     private static Music4youClient instance;
     private Root root;
     private ClientConfig clientConfig = null;
@@ -97,6 +98,32 @@ public class Music4youClient {
             user.setLoginSuccesful(false);
             Log.d(TAG, "Error: " + code);
             return user;
+        }
+    }
+
+    public Boolean newEvent(Anuncio adsS) throws Music4youClientException {
+        Log.d(TAG, "entro en el Walka Client");
+        Boolean ok = false;
+        String uri;
+        uri = BASE_URI +"/anuncio"; //getLink(authToken.getLinks(), "create-event").getUri().toString();
+        WebTarget target = client.target(uri);
+        Form form = new Form();
+        form.param("subject", adsS.getSubject());
+        form.param("description", adsS.getDescription());
+        form.param("precio", String.valueOf(adsS.getPrecio()));
+        form.param("type", String.valueOf(adsS.getType()));
+
+
+        response = target.request().header("X-Auth-Token", authToken.getToken()).post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED_TYPE), Response.class);
+        Log.d(TAG, "response: " + response);
+
+        if (response.getStatus() == Response.Status.CREATED.getStatusCode()) {
+            ok = true;
+            Log.d(TAG, "bool" +ok.toString());
+            return ok;
+        }
+        else {
+            throw new Music4youClientException(response.readEntity(String.class));
         }
     }
 

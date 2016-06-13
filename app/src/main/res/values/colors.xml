@@ -3,4 +3,11 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="redito">#ff5f5f</color>
+    <color name="azulito">#50c0e9</color>
+    <color name="azulon">#0099cc</color>
+
+
+
+
 </resources>

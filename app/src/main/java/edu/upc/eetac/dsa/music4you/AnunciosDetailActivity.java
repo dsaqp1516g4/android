@@ -25,7 +25,7 @@ public class AnunciosDetailActivity extends AppCompatActivity {
     Button btcomments = null;
     String uri = null;
     String subject = null;
-    String precio = null;
+    double precioo ;
     String description = null;
 
 
@@ -57,11 +57,11 @@ public class AnunciosDetailActivity extends AppCompatActivity {
 
                 subject = anuncio.getSubject();
                 description = anuncio.getDescription();
-                precio = anuncio.getSubject();
+                precioo = anuncio.getPrecio();
 
                 textViewName.setText(subject);
                 textViewDescription.setText(description);
-                textViewaddress.setText(precio);
+                textViewaddress.setText(String.valueOf( precioo));
 
 
             }
