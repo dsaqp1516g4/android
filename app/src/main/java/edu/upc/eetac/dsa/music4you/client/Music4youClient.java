@@ -40,6 +40,23 @@ public class Music4youClient {
         client = ClientBuilder.newClient(clientConfig);
         loadRoot();
     }
+    public Boolean LogOut (String uri) throws Music4youClientException{
+        Boolean ok = false;
+        if(uri==null){
+            uri = BASE_URI + "/login"; getLink(authToken.getLinks(), "logout").getUri().toString();
+            Log.d(TAG, "Uri stings: " +uri);
+        }
+        WebTarget target = client.target(uri);
+        Response response = target.request().header("X-Auth-Token", authToken.getToken()).delete();
+        if (response.getStatus() == Response.Status.NO_CONTENT.getStatusCode()) {
+            ok = true;
+            Log.d(TAG, "bool" +ok.toString());
+            return ok;
+        }
+        else {
+            throw new Music4youClientException(response.readEntity(String.class));
+        }
+    }
     public user register(String userid,  String pass,String email, String name){
         Log.d(TAG, "entra en el register" );
         user user = new user();

@@ -3,12 +3,16 @@ package edu.upc.eetac.dsa.music4you;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -28,6 +32,11 @@ public class AnuncioListActivity extends AppCompatActivity {
     private AnuncioListAdapter adapter = null;
     private TextView res;
     String URL_base = "http://80.103.156.84:8080/music4you/anuncio";
+    String URL_base2 = "http://80.103.156.84:8080/music4you/";
+
+    private LogOutTask mLogOutTask = null;
+
+
     class GetAnunciosTask extends AsyncTask<Void, Void, String> {
         private String uri;
         public GetAnunciosTask(String uri) {
@@ -87,7 +96,6 @@ public class AnuncioListActivity extends AppCompatActivity {
         mGetStingsTask = new GetAnunciosTask(null);
         mGetStingsTask.execute((Void) null);
 
-
         ListView list = (ListView)findViewById(R.id.list);
         adapter = new AnuncioListAdapter(this, anuncios);
         list.setAdapter(adapter);
@@ -106,15 +114,53 @@ public class AnuncioListActivity extends AppCompatActivity {
             }
         });
 
-       /* FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                String uri = null;
+                mLogOutTask = new LogOutTask(uri);
+                mLogOutTask.execute((Void)null);
             }
-        });*/
+        });
     }
 
+    public class LogOutTask extends AsyncTask<Void, Void, Boolean> {
+        String uri;
+        public LogOutTask(String uri) {
+            this.uri = uri;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params){
+            Log.d(TAG, "DO IN BACKGROUND");
+            Boolean ok = false;
+            try {
+                ok = Music4youClient.getInstance().LogOut(uri);
+            } catch (Music4youClientException e) {
+                // TODO: Handle gracefully
+                Log.d(TAG, e.getMessage());
+            }
+            return ok;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean ok) {
+            if(ok)
+            {
+                Intent intent = new Intent(AnuncioListActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+            else{
+                Toast.makeText(getBaseContext(), "No se ha podido cerrar sesión",
+                        Toast.LENGTH_LONG).show();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mLogOutTask = null;
+        }
+    }
 
 }

@@ -19,25 +19,20 @@
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/list_row_anuncio" />
+
+
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/header" />
 
-    <Button
-        android:id="@+id/postAD"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.5"
-        android:onClick="postReview"
-        android:text="Post" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:src="@android:drawable/ic_dialog_email" />
+        android:src="@mipmap/exit" />
 
 </android.support.design.widget.CoordinatorLayout>
